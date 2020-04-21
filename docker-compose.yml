@@ -1,0 +1,26 @@
+version: '2.3'
+services:
+  mt_backup:
+    build: src
+    container_name: mt_backup
+    network_mode: bridge
+    volumes:
+      - ./backup:/app/backup
+      - ./ip_list.txt:/app/ip_list.txt
+      - ./backup.key:/app/backup.key
+      - ./backup.key.pub:/app/backup.key.pub
+      - ./cron:/etc/cron.d/crontab
+    environment:
+      - TZ=Europe/Moscow
+      - MT_AUTH=key
+      - MT_LOGIN=backup
+      - MT_PASSWORD=pass
+      - MT_BACKUP_PASSWD=pass
+      - MT_ENCRYPTION=no
+      - THREADS=30
+      - SMTP_SERVER=smtp.yandex.ru:587
+      - SMTP_LOGIN=login
+      - SMTP_PASS=pass
+      - EMAIL_FROM=mail_from
+      - EMAIL_TO=mail_to
+      - SSH_PUBLIC_KEY="ssh key raw "
