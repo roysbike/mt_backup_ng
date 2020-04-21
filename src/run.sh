@@ -22,18 +22,16 @@ sed -i -E "s/smtp_to:.*/smtp_to: "$SMTP_TO"/" /app/config.conf
 #fi
 
 
-echo "execute command on Mikrotik"
+echo "Create command rsc for Mikrotik /backup/add_backup_user.rsc";
 
 AUTH_METOD=`cat /app/config.conf | grep "auth_method:" | awk '{print $2}' | sed 's/"//g'`
 if [ "auth" = "$AUTH_METOD" ]
 then
-echo "AUTH"
 echo "
 /user add name=$MT_LOGIN group=full password=$MT_PASSWORD
 " > /app/backup/add_backup_user.rsc
 
 else 
-echo "KEY"
 
 echo "
 /user add name=$MT_LOGIN group=full password=$MT_PASSWORD
@@ -47,4 +45,6 @@ echo "
 fi
 
 #RUN backup script 
-python /app/backup.py
+python /app/backup.py &
+
+
