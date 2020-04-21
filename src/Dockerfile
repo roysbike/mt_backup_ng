@@ -3,4 +3,6 @@ RUN pip install -U paramiko pyyaml
 RUN apt update && apt install --no-install-recommends cron  -y
 COPY . /app
 WORKDIR /app
-CMD ["bash", "/app/run.sh"]
+RUN touch /var/log/cron.log
+CMD bash /app/run.sh && cron && tail -f /var/log/cron.log
+
